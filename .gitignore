@@ -1,0 +1,50 @@
+# Dependency directories
+node_modules/
+
+# Environment variables
+.env
+
+# Logs
+logs/
+*.log
+
+# Build output
+build/
+dist/
+
+# Debugging
+.vscode/
+.idea/
+
+# Compiled output
+*.js.map
+
+# Editor-specific files
+*.swp
+*~
+
+# Package lock files
+package-lock.json
+yarn.lock
+
+# IDE and Editor settings
+*.sublime-project
+*.sublime-workspace
+*.idea/
+*.vscode/
+
+# Mac-specific files
+.DS_Store
+
+# Windows thumbnail cache
+Thumbs.db
+
+# Node.js generated files
+.npm
+.npmrc
+
+# Yarn cache
+.yarn
+
+# Environment configuration
+config.js
