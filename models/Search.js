@@ -22,6 +22,10 @@ const SearchSchema = new Schema({
                 type: Number,
                 default: 0,
               },
+              neutral: {
+                type: Number,
+                default: 0,
+              },
               negative: {
                 type: Number,
                 default: 0,
