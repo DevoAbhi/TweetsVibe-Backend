@@ -14,6 +14,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 // Routes imports
 import authRoutes from './routes/auth.js';
+import scrapRoutes from './routes/twitterScrapper.js';
 
 
 app.use(bodyParser.json());
@@ -31,6 +32,7 @@ app.use((req, res, next) => {
 
 //use the routes
 app.use('/api',authRoutes);
+app.use('/api',scrapRoutes);
 
 
 mongoose.connect(process.env.MONGODB_URI,
