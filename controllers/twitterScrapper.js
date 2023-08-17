@@ -1,10 +1,27 @@
 import puppeteer from 'puppeteer';
 import { client } from "@gradio/client";
 import Search from '../models/Search.js';
+import cron from 'node-cron';
 
 export const postScrapper = async (req, res, next) => {
 
+    // cron.schedule('*/5 * * * *', () => {
+    //     scrapeTwitter(req, res);
+    // }, { scheduled: true, timezone: 'UTC' });
+
+    cron.schedule('0 8 * * *', () => {
+        analyzeTweets(searchKeyword);
+    }, { scheduled: true, timezone: 'Your_Timezone' });
+
+    return res.status(200).json({
+        success: true
+    })
+
+};
+
+const scrapeTwitter = async (req, res) => {
     try {
+        console.log("Hello");
         const { searchWord } = req.body;
         const userId = req.userId;
 
@@ -15,7 +32,7 @@ export const postScrapper = async (req, res, next) => {
                 '--disable-dev-shm-usage',
                 '--single-process'
             ],
-            headless: true,
+            headless: false,
             executablePath: process.env.NODE_ENV === "production" ? process.env.PUPPETEER_EXECUTABLE_PATH : puppeteer.executablePath()
         });
         const page = await browser.newPage();
@@ -51,7 +68,7 @@ export const postScrapper = async (req, res, next) => {
         // await page.screenshot({ path: 'screenshot.png' });
 
         let extractedTweets = [];
-        while (extractedTweets.length < 200) {
+        while (extractedTweets.length < 10) {
             const tweets = await page.$$eval('div[data-testid="tweetText"]', (tweetElements) =>
                 tweetElements.map((tweetElement) => tweetElement.innerText)
             );
@@ -91,17 +108,14 @@ export const postScrapper = async (req, res, next) => {
             formattedString,
         ]);
 
-        // console.log(data);
 
         const final_output = data[0].split(delimiter);
+        console.log(final_output);
 
 
         await saveSearchedResults(userId, searchWord, final_output);
 
-        return res.status(200).json({
-            success: true,
-            final_output
-        })
+
 
     } catch (error) {
         console.log(error)
@@ -110,9 +124,7 @@ export const postScrapper = async (req, res, next) => {
             message: err.message
         })
     }
-
-
-};
+}
 
 const saveSearchedResults = async (userId, searchWord, final_output) => {
     const extracted_sentiment = {
