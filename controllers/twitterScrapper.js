@@ -9,15 +9,28 @@ export const postScrapper = async (req, res, next) => {
     //     scrapeTwitter(req, res);
     // }, { scheduled: true, timezone: 'UTC' });
 
-    cron.schedule('0 8 * * *', () => {
-        analyzeTweets(searchKeyword);
-    }, { scheduled: true, timezone: 'Your_Timezone' });
+    scrapeTwitter(req, res);
+    let daysRemaining = 6;
+
+    cronJob = cron.schedule('0 8 * * *', () => {
+        if(daysRemaining > 0) {
+            scrapeTwitter(req, res);
+            daysRemaining--;
+        }
+        else {
+            cronJob.stop();
+        }
+    }, { scheduled: true, timezone: 'UTC' });
 
     return res.status(200).json({
         success: true
     })
 
 };
+
+const test = () => {
+    console.log("Reached here");
+}
 
 const scrapeTwitter = async (req, res) => {
     try {
