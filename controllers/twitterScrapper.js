@@ -12,7 +12,7 @@ export const postScrapper = async (req, res, next) => {
     scrapeTwitter(req, res);
     let daysRemaining = 6;
 
-    cronJob = cron.schedule('0 8 * * *', () => {
+    const cronJob = cron.schedule('0 8 * * *', () => {
         if(daysRemaining > 0) {
             scrapeTwitter(req, res);
             daysRemaining--;
@@ -34,7 +34,7 @@ const test = () => {
 
 const scrapeTwitter = async (req, res) => {
     try {
-        console.log("Hello");
+
         const { searchWord } = req.body;
         const userId = req.userId;
 
@@ -45,7 +45,7 @@ const scrapeTwitter = async (req, res) => {
                 '--disable-dev-shm-usage',
                 '--single-process'
             ],
-            headless: false,
+            headless: true,
             executablePath: process.env.NODE_ENV === "production" ? process.env.PUPPETEER_EXECUTABLE_PATH : puppeteer.executablePath()
         });
         const page = await browser.newPage();

@@ -11,9 +11,10 @@ dotenv.config();
 export const postSignUp = async (req, res, next) => {
 
     try {
-        const { email, password } = req.body;
+        const { username, email, password } = req.body;
 
-        if (!(email && password )) {
+        if (!(email && password && username)) {
+            console.log("Please send all the details")
             return res.status(400).json({
                 success: false,
                 message: "Please send all the details"
@@ -25,6 +26,7 @@ export const postSignUp = async (req, res, next) => {
         try {
             const existingUser = await User.findOne({ email });
             if (existingUser) {
+                console.log("User is already registered");
                 return res.status(200).json({
                     success: true,
                     message: "User is already registered"
@@ -43,7 +45,8 @@ export const postSignUp = async (req, res, next) => {
 
         const user = await User.create({
             email,
-            password: hashedPassword
+            password: hashedPassword,
+            username
         });
 
 
