@@ -81,14 +81,14 @@ const scrapeTwitter = async (req, res) => {
         // await page.screenshot({ path: 'screenshot.png' });
 
         let extractedTweets = [];
-        while (extractedTweets.length < 10) {
+        while (extractedTweets.length < 100) {
             const tweets = await page.$$eval('div[data-testid="tweetText"]', (tweetElements) =>
                 tweetElements.map((tweetElement) => tweetElement.innerText)
             );
 
             extractedTweets = [...extractedTweets, ...tweets];
 
-            if (extractedTweets.length < 10) {
+            if (extractedTweets.length < 100) {
                 await page.evaluate(() => {
                     window.scrollBy(0, window.innerHeight);
                 });
