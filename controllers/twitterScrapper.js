@@ -51,24 +51,24 @@ const scrapeTwitter = async (req, res) => {
         const page = await browser.newPage();
 
         // Navigate to Twitter login page
-        await page.goto('https://twitter.com/login');
-        await page.waitForSelector('input[name="text"]');
+        await page.goto('https://twitter.com/login', { timeout: 60000 });
+        await page.waitForSelector('input[name="text"]', { timeout: 60000 });
         // await page.screenshot({ path: 'screenshot.png' });
         //
         // Login
         await page.type('input[name="text"]', 'AbhinabRoy9');
         await page.keyboard.press('Enter')
         // await page.screenshot({ path: 'screenshot.png' });
-        await page.waitForSelector('input[name="password"]');
+        await page.waitForSelector('input[name="password"]', { timeout: 60000 });
 
         await page.type('input[name="password"]', 'Abhinab@123');
         await page.click('div[data-testid="LoginForm_Login_Button"]');
-        await page.waitForSelector('div[data-testid="tweetText"]');
+        await page.waitForSelector('div[data-testid="tweetText"]', { timeout: 60000 });
         // await page.screenshot({ path: 'screenshot1.png' });
 
 
 
-        await page.goto(`https://twitter.com/search?q=${encodeURIComponent(searchWord)}&src=typed_query&f=live`);
+        await page.goto(`https://twitter.com/search?q=${encodeURIComponent(searchWord)}&src=typed_query&f=live`, { timeout: 60000 });
 
         // await page.click('a[href="/explore"]');
         // await page.screenshot({ path: 'screenshot_afterClickingSearchButton.png' });
@@ -77,7 +77,7 @@ const scrapeTwitter = async (req, res) => {
         // await page.keyboard.press('Enter')
 
 
-        await page.waitForSelector('div[data-testid="tweetText"]');
+        await page.waitForSelector('div[data-testid="tweetText"]', { timeout: 60000 });
         // await page.screenshot({ path: 'screenshot.png' });
 
         let extractedTweets = [];
