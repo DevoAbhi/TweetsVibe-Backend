@@ -24,7 +24,7 @@ dist/
 *~
 
 # Package lock files
-package-lock.json
+# package-lock.json
 yarn.lock
 
 # IDE and Editor settings
